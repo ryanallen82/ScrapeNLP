@@ -5,6 +5,7 @@ import time
 import urlparse
 import pyodbc
 import webbrowser as web
+import yammer_settings
 
 
 try:
@@ -13,13 +14,11 @@ except ImportError:
 	import xml.etree.ElementTree as ET
 
 TOKEN_STORE = "yammer.token"
+server = yammer_settings.server()
 
 #OAuth details for SENewsPosterBot
 #Consumer (Application) Key
-CONSUMER_KEY = 'A42XoZTpezB1jMzVaiSKw'
-
-#Consumer (Application) Secret
-CONSUMER_SECRET = 'nPOQXwdUrToovO3QlSLvrOEDjW8n33aFhN69mAxlA'
+CONSUMER_KEY, CONSUMER_SECRET = yammer_settings.keys()
 
 #Request Token URL
 REQUEST_TOKEN_URL = 'https://www.yammer.com/oauth/request_token'
@@ -81,7 +80,7 @@ consumer = oauth.Consumer(key=CONSUMER_KEY, secret=CONSUMER_SECRET)
 client = oauth.Client(consumer, token)
 resp, content = client.request(url)
 
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=R0224576\RYANSQLSERVER;DATABASE=FAQ;UID=m097654;Trusted_Connection=yes')
+cnxn = pyodbc.connect(server)
 cursor = cnxn.cursor()
 
 i = 0
